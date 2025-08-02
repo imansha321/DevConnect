@@ -4,6 +4,8 @@ const auth = require('../../middleware/auth'); // Assuming you have an auth midd
 const Profile = require('../../models/Profile'); // Assuming you have a Profile model defined
 const { check, validationResult } = require('express-validator');
 const User = require('../../models/User'); // Assuming you have a User model defined
+const axios = require('axios'); // For making HTTP requests to GitHub API
+require('dotenv').config();
 
 // @route   GET api/profile/me
 // @desc    Get current user's profile
@@ -288,6 +290,53 @@ router.delete('/education/:edu_id', auth, async (req, res) => {
         res.status(500).send('Server error');
     }
 });
+
+
+// @route   GET api/profile/github/:username
+// @desc    Get user repos from GitHub
+// @access  Public
+
+router.get('/github/:username', async (req, res) => {
+    try {
+        const username = req.params.username;
+        const clientId = process.env.GITHUB_CLIENT_ID;
+        const clientSecret = process.env.GITHUB_CLIENT_SECRET;
+        
+        // Construct URL with authentication
+        let uri = `https://api.github.com/users/${username}/repos?per_page=5&sort=created:asc`;
+        
+        // Add client_id and client_secret if available
+        if (clientId && clientSecret) {
+            uri += `&client_id=${clientId}&client_secret=${clientSecret}`;
+        }
+        
+        // Headers for GitHub API
+        const headers = { 
+            'User-Agent': 'node.js',
+            'Accept': 'application/vnd.github.v3+json'
+        };
+        
+        const response = await axios.get(uri, { headers });
+        
+        return res.json(response.data);
+    } catch (err) {
+        console.error(err.message);
+        
+        // Handle GitHub API specific errors
+        if (err.response) {
+            const statusCode = err.response.status;
+            
+            if (statusCode === 404) {
+                return res.status(404).json({ msg: 'GitHub profile not found' });
+            } else if (statusCode === 403) {
+                return res.status(403).json({ msg: 'GitHub API rate limit exceeded' });
+            }
+        }
+        
+        res.status(500).send('Server error');
+    }
+});
+
 
 
 module.exports = router; 
