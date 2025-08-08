@@ -26,6 +26,7 @@
   },
   "devDependencies": {
     "concurrently": "^9.2.0",
-    "nodemon": "^3.1.10"
+    "nodemon": "^3.1.10",
+    "webpack-dev-server": "^5.2.2"
   }
 }
