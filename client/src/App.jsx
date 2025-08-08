@@ -1,22 +1,23 @@
 import React, { Fragment , useEffect} from 'react';
 import './App.css';
-import Navbar from './components/layout/Navbar.js';
-import Landing from './components/layout/Landing.js';
-import Register from './components/auth/Register.js';
-import Login from './components/auth/Login.js';
-import Alert from './features/alert/Alert.js';
 
-import Dashboard from './components/dashboard/Dashboard.js';
+import Navbar from './components/layout/Navbar';
+import Landing from './components/layout/Landing';
+import Register from './components/auth/Register';
+import Login from './components/auth/Login';
+import Alert from './features/alert/Alert';
+
+import Dashboard from './components/dashboard/Dashboard';
 import PrivateRoute from './components/routing/PrivateRoute';
-import CreateProfile from './components/profile-forms/CreateProfile.js';
-import EditProfile from './components/profile-forms/EditProfile.js';
+import CreateProfile from './components/profile-forms/CreateProfile';
+import EditProfile from './components/profile-forms/EditProfile';
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 
 //Redux 
 import { Provider } from 'react-redux';
-import store  from './store.js';
+import store  from './store';
 
 import { loadUser } from './features/auth/authSlice';
 import setAuthToken from './utils/setAuthToken';
