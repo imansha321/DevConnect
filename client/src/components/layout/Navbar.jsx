@@ -2,12 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../../features/auth/authSlice';
+import { clearProfile } from '../../features/profile/profileSlice';
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const { isAuthenticated, loading } = useSelector(state => state.auth);
 
   const onLogout = () => {
+    dispatch(clearProfile());
     dispatch(logout());
   };
 

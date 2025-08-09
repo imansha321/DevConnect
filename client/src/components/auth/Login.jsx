@@ -5,6 +5,8 @@ import { login } from '../../features/auth/authSlice';
 
 import { useSelector, useDispatch } from 'react-redux';
 
+import { getCurrentProfile } from '../../features/profile/profileSlice';
+
 
 const Login = () => {
 
@@ -25,7 +27,11 @@ const Login = () => {
   const onSubmit = async e => {
     e.preventDefault();
     console.log(email, password);
-    dispatch(login({ email, password }));
+    const resultAction = await dispatch(login({ email, password }));
+    if (login.fulfilled.match(resultAction)) {
+    dispatch(getCurrentProfile());
+    window.location.reload();
+    }
   };
 
   if (isAuthenticated) {

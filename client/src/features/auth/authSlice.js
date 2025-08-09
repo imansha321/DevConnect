@@ -3,6 +3,8 @@ import axios from 'axios';
 import setAuthToken from '../../utils/setAuthToken';
 import { setTimedAlert } from '../alert/alertSlice'; 
 
+
+
 const initialState = {
   token: localStorage.getItem('token'),
   isAuthenticated: null,
@@ -56,6 +58,7 @@ export const login = createAsyncThunk(
         { headers: { 'Content-Type': 'application/json' } }
       );
       localStorage.setItem('token', res.data.token);
+      console.log(res.data);
       return res.data;
     } catch (err) {
       const errors = err.response?.data?.errors;

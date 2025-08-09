@@ -12,7 +12,7 @@ const EditProfile = () => {
   const [formData, setFormData] = useState({
     bio: '',
     skills: '',
-    github: '',
+    githubusername: '',
     company: '',
     location: '',
     website: '',
@@ -37,7 +37,7 @@ const EditProfile = () => {
       setFormData({
         bio: profile.bio || '',
         skills: profile.skills ? profile.skills.join(',') : '',
-        github: profile.githubusername || '',
+        githubusername: profile.githubusername || '',
         company: profile.company || '',
         location: profile.location || '',
         website: profile.website || '',
@@ -51,7 +51,7 @@ const EditProfile = () => {
     }
   }, [loading, profile]);
 
-  const { bio, skills, github, company, location, website, status, youtube, twitter, facebook, linkedin, instagram } = formData;
+  const { bio, skills, githubusername, company, location, website, status, youtube, twitter, facebook, linkedin, instagram } = formData;
 
   const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -105,7 +105,7 @@ const EditProfile = () => {
         </div>
 
         <div className="form-group">
-          <input type="text" placeholder="Github Username" name="github" value={github} onChange={onChange}/>
+          <input type="text" placeholder="Github Username" name="githubusername" value={githubusername} onChange={onChange}/>
           <small className="form-text">Include your username to fetch latest repos and show Github link</small>
         </div>
 

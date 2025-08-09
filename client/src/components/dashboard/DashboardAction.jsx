@@ -1,7 +1,11 @@
-import React from 'react'
+import React , {useState} from 'react'
 import { Link } from 'react-router-dom';
+import Test from './Test'; 
+
 
 const DashboardAction = () => {
+  const [showTestComponent, setShowTestComponent] = useState(false);
+
   return (
     <div>
       <Link to="/edit-profile" className="btn btn-light">
@@ -13,6 +17,12 @@ const DashboardAction = () => {
       <Link to="/add-education" className="btn btn-light">
         <i className="fas fa-graduation-cap text-primary"></i> Add Education
       </Link>
+
+      <button className="btn btn-danger" onClick={()=> setShowTestComponent(!showTestComponent)}> Test Button</button>
+
+
+      {showTestComponent && <Test />}
+
     </div>
   )
 }

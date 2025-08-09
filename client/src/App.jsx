@@ -11,6 +11,14 @@ import Dashboard from './components/dashboard/Dashboard';
 import PrivateRoute from './components/routing/PrivateRoute';
 import CreateProfile from './components/profile-forms/CreateProfile';
 import EditProfile from './components/profile-forms/EditProfile';
+import AddExperience from './components/profile-forms/AddExperience';
+import AddEducation from './components/profile-forms/AddEducation';
+import Experiences from './components/dashboard/Experiences';
+import Education from './components/dashboard/Education';
+import DeleteAccount from './components/dashboard/DeleteAccount';
+
+import Profiles from './components/profiles/Profiles';
+import Profile from './components/profile/Profile';
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
@@ -63,6 +71,10 @@ const App = () => {
             <section className="container">
               <PrivateRoute>
                 <Dashboard />
+                <Alert/>
+                <Experiences />
+                <Education />
+                <DeleteAccount />
               </PrivateRoute>
             </section>
           }
@@ -89,10 +101,55 @@ const App = () => {
             </section>
           }
         />
-        </Routes>
-      </Fragment>
-    </Router>
-  </Provider>
+        <Route
+          path="/add-experience"
+          element={
+            <section className="container">
+              <PrivateRoute>
+                <Alert />
+                <AddExperience />
+              </PrivateRoute>
+            </section>
+          }
+        />
+        <Route
+          path="/add-education"
+          element={
+            <section className="container">
+              <PrivateRoute>
+                <Alert />
+                <AddEducation />
+              </PrivateRoute>
+            </section>
+          }
+        />
+        <Route
+          path="/profiles"
+          element={
+            <section className="container">
+              <PrivateRoute>
+                <Alert />
+                <Profiles />
+              </PrivateRoute>
+            </section>
+          }
+        />
+        <Route
+          path="/profile/:id"
+          element={
+            <section className="container">
+              <PrivateRoute>
+                <Alert />
+                <Profile />
+              </PrivateRoute>
+            </section>
+          }
+        />
+
+      </Routes>
+    </Fragment>
+  </Router>
+</Provider>
 )};
 
 export default App;

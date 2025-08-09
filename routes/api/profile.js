@@ -2,10 +2,12 @@ const express = require('express');
 const router = express.Router();
 const auth = require('../../middleware/auth'); // Assuming you have an auth middleware
 const Profile = require('../../models/Profile'); // Assuming you have a Profile model defined
+const Post = require('../../models/Post'); // Assuming you have a Post model defined
 const { check, validationResult } = require('express-validator');
 const User = require('../../models/User'); // Assuming you have a User model defined
 const axios = require('axios'); // For making HTTP requests to GitHub API
 require('dotenv').config();
+
 
 // @route   GET api/profile/me
 // @desc    Get current user's profile
@@ -137,8 +139,8 @@ router.get('/user/:user_id', async (req, res) => {
 
 router.delete('/', auth, async (req, res) => {
     try {
-        //@todo - remove users posts
-
+        //Remove users posts
+        await Post.deleteMany({ user: req.user.id });
         // Remove profile
         await Profile.findOneAndDelete({ user: req.user.id });
         // Remove user 
