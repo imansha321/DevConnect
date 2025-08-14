@@ -20,6 +20,10 @@ import DeleteAccount from './components/dashboard/DeleteAccount';
 import Profiles from './components/profiles/Profiles';
 import Profile from './components/profile/Profile';
 
+import Posts from './components/post/Posts';
+import AllPosts from './components/post/AllPosts';
+import Post from './components/post/Post';
+
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 
@@ -145,7 +149,39 @@ const App = () => {
             </section>
           }
         />
-
+        <Route
+          path="/posts"
+          element={
+            <section className="container">
+              <PrivateRoute>
+                <Alert />
+                <Posts />
+              </PrivateRoute>
+            </section>
+          }
+        />
+        <Route
+          path="/all-posts"
+          element={
+            <section className="container">
+              <PrivateRoute>
+                <Alert />
+                <AllPosts />
+              </PrivateRoute>
+            </section>
+          }
+        />
+        <Route
+          path="/post/:id"
+          element={
+            <section className="container">
+              <PrivateRoute>
+                <Alert />
+                <Post />
+              </PrivateRoute>
+            </section>
+          }
+        />
       </Routes>
     </Fragment>
   </Router>

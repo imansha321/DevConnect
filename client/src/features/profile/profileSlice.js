@@ -8,6 +8,7 @@ import { setTimedAlert } from '../alert/alertSlice';
 const initialState = {
   profile: null,
   profiles: [],
+  profileById: null,
   repos: [],
   loading: true,
   error: {},
@@ -330,6 +331,7 @@ const profileSlice = createSlice({
       })
       .addCase(getAllProfiles.fulfilled, (state, action) => {
         state.profiles = action.payload;
+        console.log(state.profiles);
         state.loading = false;
       })
       .addCase(getAllProfiles.rejected, (state, action) => {
@@ -339,11 +341,11 @@ const profileSlice = createSlice({
 
       //get profile by user id
       .addCase(getProfileById.pending, (state) => {
-        state.profile = null;
+        state.profileById = null;
         state.loading = true;
       })
       .addCase(getProfileById.fulfilled, (state, action) => {
-        state.profile = action.payload;
+        state.profileById = action.payload;
         state.loading = false;
       })
       .addCase(getProfileById.rejected, (state, action) => {

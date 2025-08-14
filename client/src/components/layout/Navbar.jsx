@@ -16,7 +16,8 @@ const Navbar = () => {
   const authLinks = (
     <ul>
       <li><Link to="/profiles"><i className='fas fa-users'></i> {" "} <span className='hide-sm'></span>Developers</Link></li>
-      <li><Link to="/posts">Posts</Link></li>
+      <li><Link to="/posts">My Posts</Link></li>
+      <li><Link to="/all-posts">All Posts</Link></li>
       <li><Link to="/dashboard">Dashboard</Link></li>
       <li>
         <button onClick={onLogout} className="btn btn-link">
