@@ -46,7 +46,7 @@ const AllPosts = () => {
           </div>
           <div>
             <p className="my-1">{post.text}</p>
-            <p className="post-date">Posted on {moment(post.updatedAt).fromNow()}</p>
+            <p className="post-date">Posted on {moment(post.createdAt).fromNow()}</p>
             <button type="button" className="btn btn-light" onClick={() => handleLike(post)}>
               <i className="fas fa-thumbs-up" style={{ color: post.likes.some(like => like.user === user._id) ? 'blue' : 'black' }}></i>
               <span>{post.likes.length}</span>

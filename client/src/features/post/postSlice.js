@@ -1,6 +1,7 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 import { setTimedAlert } from '../alert/alertSlice';
 import axios from 'axios';
+import { act } from 'react';
 
 
 
@@ -131,6 +132,44 @@ export const unlikePost = createAsyncThunk(
   }
 );
 
+  export const addComment = createAsyncThunk(
+    "post/addComment",
+    async({ postId, formData }, {rejectWithValue}) => {
+      try {
+        const config = {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        };
+        const response = await axios.post(`/api/post/comment/${postId}`, formData , config);
+        console.log(response.data);
+        return response.data;
+      } catch (error) {
+        return rejectWithValue({
+          msg: error.response?.statusText || 'Server Error',
+          status: error.response?.status || 500,
+        });
+      }
+    }
+  )
+
+
+export const deleteComment = createAsyncThunk(
+  "post/deleteComment",
+  async ({ postId, commentId }, { rejectWithValue }) => {
+    try {
+      const response = await axios.delete(`/api/post/comment/${postId}/${commentId}`);
+      console.log("comment deleted")
+      return response.data;
+    } catch (error) {
+      return rejectWithValue({
+        msg: error.response?.statusText || 'Server Error',
+        status: error.response?.status || 500,
+      });
+    }
+  }
+);
+
 const postSlice = createSlice({
   name: "post",
   initialState,
@@ -176,6 +215,7 @@ const postSlice = createSlice({
       .addCase(getPostById.fulfilled, (state, action) => {
         state.loading = false;
         state.post = action.payload;
+        console.log(action.payload);
       })
       .addCase(getPostById.rejected, (state, action) => {
         state.loading = false;
@@ -221,6 +261,30 @@ const postSlice = createSlice({
         if (post) post.likes = likes || action.payload;
       })
       .addCase(unlikePost.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(addComment.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(addComment.fulfilled, (state, action) => {
+        state.loading = false;
+        console.log(action.payload);
+        state.post = action.payload;
+      })
+      .addCase(addComment.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(deleteComment.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(deleteComment.fulfilled, (state, action) => {
+        state.loading = false;
+        console.log(action.payload);
+        state.post = action.payload;
+      })
+      .addCase(deleteComment.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });
