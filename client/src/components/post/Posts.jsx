@@ -72,7 +72,7 @@ const Posts = () => {
 
       <div className="posts">
         {[...postsByUserId]
-        .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
         .map((post) => (
           <div className="post bg-white p-1 my-1" key={post._id}>
             <div>

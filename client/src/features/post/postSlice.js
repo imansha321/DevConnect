@@ -3,6 +3,7 @@ import { setTimedAlert } from '../alert/alertSlice';
 import axios from 'axios';
 
 
+
 const initialState = {
   posts: [],
   postsByUserId: [],
@@ -100,6 +101,36 @@ export const getPostsByUserId = createAsyncThunk(
   }
 );
 
+export const likePost = createAsyncThunk(
+  "post/likePost",
+  async (postId, { rejectWithValue }) => {
+    try {
+      const response = await axios.put(`/api/post/like/${postId}`);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue({
+        msg: error.response?.statusText || 'Server Error',
+        status: error.response?.status || 500,
+      });
+    }
+  }
+);
+
+export const unlikePost = createAsyncThunk(
+  "post/unlikePost",
+  async (postId, { rejectWithValue }) => {
+    try {
+      const response = await axios.put(`/api/post/unlike/${postId}`);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue({
+        msg: error.response?.statusText || 'Server Error',
+        status: error.response?.status || 500,
+      });
+    }
+  }
+);
+
 const postSlice = createSlice({
   name: "post",
   initialState,
@@ -158,6 +189,38 @@ const postSlice = createSlice({
         state.postsByUserId = action.payload;
       })
       .addCase(getPostsByUserId.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(likePost.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(likePost.fulfilled, (state, action) => {
+        state.loading = false;
+        const { postId, likes } = action.meta.argData || { 
+          postId: action.meta.arg, 
+          likes: action.payload 
+        };
+        const post = state.posts.find((p) => p._id === postId);
+        if (post) post.likes = likes || action.payload;
+      })
+      .addCase(likePost.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(unlikePost.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(unlikePost.fulfilled, (state, action) => {
+        state.loading = false;
+        const { postId, likes } = action.meta.argData || {
+          postId: action.meta.arg,
+          likes: action.payload
+        };
+        const post = state.posts.find((p) => p._id === postId);
+        if (post) post.likes = likes || action.payload;
+      })
+      .addCase(unlikePost.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

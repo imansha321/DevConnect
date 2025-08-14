@@ -13,8 +13,6 @@ const initialState = {
   loading: true,
   error: {},
 };
-
-
 // Thunks
 
 // Get current profile
